@@ -11,7 +11,7 @@ import bleak_retry_connector
 from bleak import BleakClient
 from homeassistant.components import bluetooth
 from homeassistant.components.light import (ATTR_BRIGHTNESS, ATTR_RGB_COLOR, ATTR_EFFECT, ColorMode, LightEntity,
-                                            LightEntityFeature, ATTR_COLOR_TEMP_KELVIN)
+                                            LightEntityFeature)
 
 from .const import DOMAIN
 
@@ -65,8 +65,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class GoveeBluetoothLight(LightEntity):
     _attr_color_mode = ColorMode.RGB
     _attr_supported_color_modes = {ColorMode.RGB}
-    _attr_supported_features = LightEntityFeature(
-        LightEntityFeature.EFFECT | LightEntityFeature.FLASH | LightEntityFeature.TRANSITION)
+    _attr_supported_features = {LightEntityFeature.EFFECT}
 
     def __init__(self, light, ble_device) -> None:
         """Initialize an bluetooth light."""
