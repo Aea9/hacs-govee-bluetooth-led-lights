@@ -28,7 +28,7 @@ class LedMode(IntEnum):
     
     Currently only manual is supported.
     """
-    MANUAL     = 0x02
+    MANUAL     = 0x15
     MICROPHONE = 0x06
     SCENES     = 0x05 
 
@@ -73,13 +73,14 @@ class GoveeBluetoothLight(LightEntity):
         self._state = True
 
         if ATTR_BRIGHTNESS in kwargs:
-            brightness = kwargs.get(ATTR_BRIGHTNESS, 255)
-            await self._sendBluetoothData(LedCommand.BRIGHTNESS, [brightness])
-            self._brightness = brightness
+            brightness255 = kwargs.get(ATTR_BRIGHTNESS, 255)
+            brightness64 = brightness/255*64
+            await self._sendBluetoothData(LedCommand.BRIGHTNESS, [brightness64])
+            self._brightness = brightness64
 
         if ATTR_RGB_COLOR in kwargs:
             red, green, blue = kwargs.get(ATTR_RGB_COLOR)
-            await self._sendBluetoothData(LedCommand.COLOR, [LedMode.MANUAL, red, green, blue])
+            await self._sendBluetoothData(LedCommand.COLOR, [LedMode.MANUAL, 0x01, red, green, blue, 0x00,  0x00, 0x00, 0x00, 0x00, 0xFF, 0x7F,])
 
     async def async_turn_off(self, **kwargs) -> None:
         await self._sendBluetoothData(LedCommand.POWER, [0x0])
