@@ -11,7 +11,7 @@ import bleak_retry_connector
 from bleak import BleakClient
 from homeassistant.components import bluetooth
 from homeassistant.components.light import (ATTR_BRIGHTNESS, ATTR_RGB_COLOR, ATTR_EFFECT, ColorMode, LightEntity,
-                                            LightEntityFeature)
+                                            LightEntityFeature, ATTR_COLOR_TEMP_KELVIN)
 
 from .const import DOMAIN
 
@@ -65,7 +65,9 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class GoveeBluetoothLight(LightEntity):
     _attr_color_mode = ColorMode.RGB
     _attr_supported_color_modes = {ColorMode.RGB}
-    _attr_supported_features = {LightEntityFeature.EFFECT}
+    _attr_supported_features = LightEntityFeature(
+        LightEntityFeature.EFFECT | LightEntityFeature.FLASH | LightEntityFeature.TRANSITION)
+
 
     def __init__(self, light, ble_device) -> None:
         """Initialize an bluetooth light."""
@@ -73,6 +75,13 @@ class GoveeBluetoothLight(LightEntity):
         self._ble_device = ble_device
         self._state = None
         self._brightness = None
+
+    @property
+    def effect_list(self) -> list[str] | None:
+        """Return the list of effects."""
+        effect_list = effects.keys()
+
+        return effect_list
 
     @property
     def name(self) -> str:
@@ -92,12 +101,6 @@ class GoveeBluetoothLight(LightEntity):
     def is_on(self) -> bool | None:
         """Return true if light is on."""
         return self._state
-
-    @property
-    def effect_list(self) -> list[str] | None:
-        effect_list = effects.keys()
-
-        return effect_list
 
     async def async_turn_on(self, **kwargs) -> None:
         await self._sendBluetoothData(LedCommand.POWER, [0x1])
