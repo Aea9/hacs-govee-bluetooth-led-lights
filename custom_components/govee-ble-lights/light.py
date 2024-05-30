@@ -10,11 +10,35 @@ import bleak_retry_connector
 
 from bleak import BleakClient
 from homeassistant.components import bluetooth
-from homeassistant.components.light import (ATTR_BRIGHTNESS, ATTR_RGB_COLOR, ColorMode, LightEntity)
+from homeassistant.components.light import (ATTR_BRIGHTNESS, ATTR_RGB_COLOR, ATTR_EFFECT, ColorMode, LightEntity,
+                                            LightEntityFeature, ATTR_COLOR_TEMP_KELVIN)
 
 from .const import DOMAIN
 
 UUID_CONTROL_CHARACTERISTIC = '00010203-0405-0607-0809-0a0b0c0d2b11'
+
+effects = {
+    "Amanecer": 0x00,
+    "Atardecer": 0x01,
+    "Bosque": 0xd4,
+    "Hojas crujiendo": 0xda,
+    "Universo A": 0xc8,
+    "Universo B": 0xc3,
+    "Meteorito": 0xcd,
+    "Lluvia de meteoritos": 0xe4,
+    "Aurora A": 0xd7,
+    "Aurora B": 0xf1,
+    "Relampago A": 0xd6,
+    "Relampago B": 0x55,
+    "Relampago C": 0x34,
+    "Cielo estrellado": 0xd9,
+    "Estrella": 0xd5,
+    "Copo de nieve A": 0x0f,
+    "Copo de nieve B": 0x6a,
+    "Primavera": 0xd2,
+    "Verano A": 0xdf,
+    "Verano B": 0xe8
+}
 
 class LedCommand(IntEnum):
     """ A control command packet's type. """
@@ -41,6 +65,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class GoveeBluetoothLight(LightEntity):
     _attr_color_mode = ColorMode.RGB
     _attr_supported_color_modes = {ColorMode.RGB}
+    _attr_supported_features = LightEntityFeature(
+        LightEntityFeature.EFFECT | LightEntityFeature.FLASH | LightEntityFeature.TRANSITION)
 
     def __init__(self, light, ble_device) -> None:
         """Initialize an bluetooth light."""
@@ -68,6 +94,12 @@ class GoveeBluetoothLight(LightEntity):
         """Return true if light is on."""
         return self._state
 
+    @property
+    def effect_list(self) -> list[str] | None:
+        effect_list = effects.keys()
+
+        return effect_list
+
     async def async_turn_on(self, **kwargs) -> None:
         await self._sendBluetoothData(LedCommand.POWER, [0x1])
         self._state = True
@@ -81,6 +113,12 @@ class GoveeBluetoothLight(LightEntity):
         if ATTR_RGB_COLOR in kwargs:
             red, green, blue = kwargs.get(ATTR_RGB_COLOR)
             await self._sendBluetoothData(LedCommand.COLOR, [LedMode.MANUAL, 0x01, red, green, blue, 0x00,  0x00, 0x00, 0x00, 0x00, 0xFF, 0x7F])
+
+        if ATTR_EFFECT in kwargs:
+            effect = kwargs.get(ATTR_EFFECT)
+            if effect != "EFFECT_OFF":
+            await self._sendBluetoothData(LedCommand.COLOR, [0x04, effects[effect]])
+
 
     async def async_turn_off(self, **kwargs) -> None:
         await self._sendBluetoothData(LedCommand.POWER, [0x0])
