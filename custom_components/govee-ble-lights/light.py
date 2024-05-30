@@ -80,7 +80,7 @@ class GoveeBluetoothLight(LightEntity):
 
         if ATTR_RGB_COLOR in kwargs:
             red, green, blue = kwargs.get(ATTR_RGB_COLOR)
-            await self._sendBluetoothData(LedCommand.COLOR, [LedMode.MANUAL, 0x01, red, green, blue, 0x00,  0x00, 0x00, 0x00, 0x00, 0xFF, 0x7F,])
+            await self._sendBluetoothData(LedCommand.COLOR, [LedMode.MANUAL, 0x01, red, green, blue, 0x00,  0x00, 0x00, 0x00, 0x00, 0xFF, 0x7F])
 
     async def async_turn_off(self, **kwargs) -> None:
         await self._sendBluetoothData(LedCommand.POWER, [0x0])
