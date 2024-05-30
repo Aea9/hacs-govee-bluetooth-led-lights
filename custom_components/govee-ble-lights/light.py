@@ -116,7 +116,7 @@ class GoveeBluetoothLight(LightEntity):
         if ATTR_EFFECT in kwargs:
             effect = kwargs.get(ATTR_EFFECT)
             if effect != "EFFECT_OFF":
-            await self._sendBluetoothData(LedCommand.COLOR, [0x04, effects[effect]])
+                await self._sendBluetoothData(LedCommand.COLOR, [0x04, effects[effect]])
 
 
     async def async_turn_off(self, **kwargs) -> None:
