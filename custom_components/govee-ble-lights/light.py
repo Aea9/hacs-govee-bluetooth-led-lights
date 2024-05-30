@@ -74,8 +74,8 @@ class GoveeBluetoothLight(LightEntity):
 
         if ATTR_BRIGHTNESS in kwargs:
             brightness255 = kwargs.get(ATTR_BRIGHTNESS, 255)
-            brightness64 = int(brightness255/255.0*64)
-            await self._sendBluetoothData(LedCommand.BRIGHTNESS, [brightness64])
+            brightnessPercent = int(brightness255/255.0*100)
+            await self._sendBluetoothData(LedCommand.BRIGHTNESS, [brightnessPercent])
             self._brightness = brightness255
 
         if ATTR_RGB_COLOR in kwargs:
