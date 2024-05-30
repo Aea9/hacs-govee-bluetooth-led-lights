@@ -79,7 +79,7 @@ class GoveeBluetoothLight(LightEntity):
     @property
     def effect_list(self) -> list[str] | None:
         """Return the list of effects."""
-        effect_list = effects.keys()
+        effect_list = list(['Amanecer', 'Atardecer', 'Bosque', 'Hojas crujiendo', 'Universo A', 'Universo B', 'Meteorito', 'Lluvia de meteoritos', 'Aurora A', 'Aurora B', 'Relampago A', 'Relampago B', 'Relampago C', 'Cielo estrellado', 'Estrella', 'Copo de nieve A', 'Copo de nieve B', 'Primavera', 'Verano A', 'Verano B'])
 
         return effect_list
 
