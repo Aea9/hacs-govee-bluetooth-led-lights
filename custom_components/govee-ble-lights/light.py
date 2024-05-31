@@ -18,6 +18,7 @@ from .const import DOMAIN
 UUID_CONTROL_CHARACTERISTIC = '00010203-0405-0607-0809-0a0b0c0d2b11'
 
 effects = {
+    "EFFECT_OFF": None,
     "Amanecer": 0x00,
     "Atardecer": 0x01,
     "Bosque": 0xd4,
@@ -79,7 +80,7 @@ class GoveeBluetoothLight(LightEntity):
     @property
     def effect_list(self) -> list[str] | None:
         """Return the list of effects."""
-        effect_list = list(['Amanecer', 'Atardecer', 'Bosque', 'Hojas crujiendo', 'Universo A', 'Universo B', 'Meteorito', 'Lluvia de meteoritos', 'Aurora A', 'Aurora B', 'Relampago A', 'Relampago B', 'Relampago C', 'Cielo estrellado', 'Estrella', 'Copo de nieve A', 'Copo de nieve B', 'Primavera', 'Verano A', 'Verano B'])
+        effect_list = list(['EFFECT_OFF', 'Amanecer', 'Atardecer', 'Bosque', 'Hojas crujiendo', 'Universo A', 'Universo B', 'Meteorito', 'Lluvia de meteoritos', 'Aurora A', 'Aurora B', 'Relampago A', 'Relampago B', 'Relampago C', 'Cielo estrellado', 'Estrella', 'Copo de nieve A', 'Copo de nieve B', 'Primavera', 'Verano A', 'Verano B'])
 
         return effect_list
 
