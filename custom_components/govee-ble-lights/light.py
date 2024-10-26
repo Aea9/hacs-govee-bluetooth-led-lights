@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any
+from homeassistant.helpers import device_registry as dr
 
 import logging
 _LOGGER = logging.getLogger(__name__)
@@ -61,6 +62,18 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     light = hass.data[DOMAIN][config_entry.entry_id]
     #bluetooth setup
     ble_device = bluetooth.async_ble_device_from_address(hass, light.address.upper(), False)
+
+    # Registrar el dispositivo
+    device_registry = dr.async_get(hass)
+    device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        identifiers={(DOMAIN, light.address)},
+        name="Govee Light",
+        manufacturer="Govee",
+        model="Bluetooth LED Strip",
+        sw_version="1.0",
+    )
+
     async_add_entities([GoveeBluetoothLight(light, ble_device)])
 
 class GoveeBluetoothLight(LightEntity):
