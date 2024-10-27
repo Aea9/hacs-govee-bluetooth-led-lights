@@ -115,6 +115,17 @@ class GoveeBluetoothLight(LightEntity):
     def is_on(self) -> bool | None:
         """Return true if light is on."""
         return self._state
+    
+    @property
+    def device_info(self):
+        return {
+            "identifiers": {(DOMAIN, self._mac)},  # Vincula entidad al dispositivo por su identificador único
+            "name": "Govee Light",
+            "manufacturer": "Govee",
+            "model": "Bluetooth LED Strip H6125",
+            "sw_version": "1.0",
+            "via_device": (DOMAIN, self._mac)  # Indica que pertenece a este dispositivo
+        }
 
     async def async_turn_on(self, **kwargs) -> None:
         await self._sendBluetoothData(LedCommand.POWER, [0x1])
