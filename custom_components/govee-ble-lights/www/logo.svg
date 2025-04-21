@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="200" fill="#ffffff"/>
+    <circle cx="100" cy="100" r="80" fill="#4CAF50"/>
+    <text x="100" y="110" font-family="Arial" font-size="24" fill="white" text-anchor="middle">GOVEE</text>
+    <text x="100" y="140" font-family="Arial" font-size="16" fill="white" text-anchor="middle">BETA</text>
+</svg> 
