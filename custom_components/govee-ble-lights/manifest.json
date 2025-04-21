@@ -10,6 +10,5 @@
     "config_flow": true,
     "iot_class": "local_polling",
     "version": "0.1.1",
-    "documentation": "https://github.com/Aea9/hacs-govee-bluetooth-led-lights",
-    "logo": "www/logo.svg"
+    "documentation": "https://github.com/Aea9/hacs-govee-bluetooth-led-lights"
 }
