@@ -5,10 +5,10 @@
         { "local_name": "ihoment_*", "connectable": false }
     ],
     "codeowners": [],
-    "requirements": ["bleak-retry-connector"],
-    "dependencies": ["bluetooth"],
     "config_flow": true,
+    "dependencies": ["bluetooth"],
+    "documentation": "https://github.com/Aea9/hacs-govee-bluetooth-led-lights",
     "iot_class": "local_polling",
-    "version": "0.1.1",
-    "documentation": "https://github.com/Aea9/hacs-govee-bluetooth-led-lights"
+    "requirements": ["bleak-retry-connector"],
+    "version": "0.1.1"
 }
